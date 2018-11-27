@@ -1,0 +1,11 @@
+{
+    "name": "Environment variables",
+    "table": "env",
+    "sort": [
+        { "field": "varname", "order": "asc" }
+    ],
+    "fields": [
+        { "name": "varname", "type": "text", "comment": "Only use big letters of the English alphabet and underscores '_'." },
+        { "name": "val", "type": "text" }
+    ]
+}
