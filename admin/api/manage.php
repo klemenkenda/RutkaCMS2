@@ -39,18 +39,31 @@ class Manage {
     /**
      * Returns object for a module.
      */
-    function getModule($file) {
+    function getModule($id) {
         $module = [];
 
-        $module["name"] = $file;
-        $module["dir"] = $this->componentDir . DIRECTORY_SEPARATOR . $file;
-        $module["installed"] = null;
+        $module["name"] = $id;
+        $module["dir"] = $this->componentDir . DIRECTORY_SEPARATOR . $id;
+        $module["installed"] = $this->isModuleInstalled($id);
         $module["integrity"] = $this->moduleIntegrity($module["dir"]);
         if ($module["integrity"]["config"] == true) {
             $module["config"] = $this->moduleConfig($module["dir"]);
         };
 
         return $module;
+    }
+
+    /**
+     * Returns true if module is installed, otherwise false.
+     */
+    function isModuleInstalled($id) {
+        $value = $this->db->getEnvVariable($id . "_INSTALLED");
+        echo $id;
+        print_r($value);
+        echo "\nˇ\n";
+
+        if ($value == "true") return true;
+        return false;
     }
 
     /**
@@ -143,7 +156,7 @@ class Manage {
         // TODO: check modules integrity
 
         // install missing modules
-        $modules = [ 'env', 'users', 'pages' ];
+        $modules = [ 'users', 'pages', 'env' ];
 
         foreach ($modules as $module) {
             $itemStatus = $this->uninstallModule($module);
@@ -170,8 +183,15 @@ class Manage {
 
         // create file path
         $createSQLFile = $this->componentDir . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . "create.sql";
-
         $success = $this->db->processSQLFile($createSQLFile);
+
+        // if everything is OK, then unregister the module
+        if ($success["status"] == "OK") {
+            $statusEnv = $this->db->setEnvVariable($id . "_INSTALLED", "true");
+            if ($statusEnv["status"] != "OK") {
+                return $statusEnv;
+            }
+        }
 
         return $success;
     }
@@ -192,8 +212,15 @@ class Manage {
 
         // destroy file path
         $destroySQLFile = $this->componentDir . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . "destroy.sql";
-
         $success = $this->db->processSQLFile($destroySQLFile);
+
+        // if everything is OK, then unregister the module
+        if ($success["status"] == "OK") {
+            $statusEnv = $this->db->unsetEnvVariable($id . "_INSTALLED");
+            if ($statusEnv["status"] != "OK") {
+                return $statusEnv;
+            }
+        }
 
         return $success;
     }

@@ -49,6 +49,52 @@ class Db {
             return [ "status" => "NOK", "error" => $this->getError() ];
         }
     }
+
+    /**
+     * Write environment variable.
+     */
+    function setEnvVariable($key, $value) {
+        // generate SQL
+        $SQL = "INSERT INTO env (varname, val) VALUES ('" . $key . "', '". $value . "')";
+        $result = $this->query($SQL);
+        if ($result == true) {
+            return [ "status" => "OK" ];
+        } else {
+            // find out the error
+            return [ "status" => "NOK", "error" => $this->getError() ];
+        }
+    }
+
+    /**
+     * Get environment variable.
+     */
+    function getEnvVariable($key) {
+        // generate SQL
+        $SQL = "SELECT val FROM env WHERE varname = '" . $key . "'";
+        $result = $this->query($SQL);
+        if ($result == true) {
+            $value = $result->fetch_array(MYSQLI_NUM);
+            return $value[0];
+        } else {
+            // find out the error
+            return [ "status" => "NOK", "error" => $this->getError() ];
+        }
+    }
+
+    /**
+     * Unset/delete environment variable.
+     */
+    function unsetEnvVariable($key) {
+        // generate SQL
+        $SQL = "DELETE FROM env WHERE varname = '" . $key . "'";
+        $result = $this->query($SQL);
+        if ($result == true) {
+            return [ "status" => "OK" ];
+        } else {
+            // find out the error
+            return [ "status" => "NOK", "error" => $this->getError() ];
+        }
+    }
 }
 
 ?>
