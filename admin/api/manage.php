@@ -120,10 +120,33 @@ class Manage {
         // TODO: check modules integrity
 
         // install missing modules
-        $modules = [ 'user', 'env', 'page' ];
+        $modules = [ 'env', 'users', 'pages' ];
 
         foreach ($modules as $module) {
             $itemStatus = $this->installModule($module);
+            array_push($status, $itemStatus);
+        }
+
+        return $status;
+    }
+
+    /**
+     * Uninstall all core modules of the system.
+     */
+    function uninstall() {
+        // output structure
+        $status = [];
+
+        // get configuration
+        $config = $this->getModules();
+
+        // TODO: check modules integrity
+
+        // install missing modules
+        $modules = [ 'env', 'users', 'pages' ];
+
+        foreach ($modules as $module) {
+            $itemStatus = $this->uninstallModule($module);
             array_push($status, $itemStatus);
         }
 
@@ -140,7 +163,7 @@ class Manage {
 
         // integrity checks
         if ($config["installed"] == true) {
-            return([ "status" => "NOK", "message" => "Module `" . $id . "`already installed" ]);
+            return([ "status" => "NOK", "message" => "Module `" . $id . "` already installed" ]);
         } else if ($config["integrity"]["create"] == false) {
             return([ "status" => "NOK", "message" => "Create SQL script does not exist for module `" . $id . "`" ]);
         }
@@ -153,6 +176,27 @@ class Manage {
         return $success;
     }
 
+    /**
+     * Delete a module: deletes DB and deletes it and unregisteres it.
+     */
+    function uninstallModule($id) {
+        // get module config/data
+        $config = $this->getModule($id);
+
+        // integrity checks
+        if ($config["installed"] == false) {
+            return([ "status" => "NOK", "message" => "Module `" . $id . "` not installed. No need for uninstall." ]);
+        } else if ($config["integrity"]["destroy"] == false) {
+            return([ "status" => "NOK", "message" => "Destroy SQL script does not exist for module `" . $id . "`" ]);
+        }
+
+        // destroy file path
+        $destroySQLFile = $this->componentDir . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . "destroy.sql";
+
+        $success = $this->db->processSQLFile($destroySQLFile);
+
+        return $success;
+    }
 
 
 

@@ -49,6 +49,8 @@ if ($function == "modules") {
 } else if ($function == "install") {
     if ($method == "POST") {
         $obj = $manage->install();
+    } else if ($method == "DELETE") {
+        $obj = $manage->uninstall();
     }
 }
 

@@ -1,0 +1,1 @@
+DESTROY TABLE users;
