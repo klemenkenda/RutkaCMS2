@@ -31,10 +31,24 @@ $function = $utils->ParseCommandFromURI($uri);
 // set empty array
 $obj = [];
 
-// multiplexer
+// API multiplexer
 if ($function == "modules") {
     if ($method == "GET") {
         $obj = $manage->getModules();
+    } else {
+        $obj = [ "message" => "Not implemented." ];
+    }
+} else if ($function == "module") {
+    if ($method == "POST") {
+        // extract parameters
+        $id = $utils->extractRequestParameter("id");
+        $obj = $manage->installModule($id);
+    } else {
+        $obj = [ "message" => "Not implemented." ];
+    }
+} else if ($function == "install") {
+    if ($method == "POST") {
+        $obj = $manage->install();
     }
 }
 

@@ -6,7 +6,10 @@ class Manage {
     /**
      * Manage class constructor.
      */
-    function __construct() {
+    function __construct($db) {
+        // saving link to database
+        $this->db = $db;
+
         // define working directory
         $this->rootDir = $_SERVER["CONTEXT_DOCUMENT_ROOT"];
         $this->componentDir = $this->rootDir . "components";
@@ -100,6 +103,57 @@ class Manage {
 
         return $integrity;
     }
+
+    /**
+     * Install basic structures to run the CMS system:
+     *   - env (environment variables)
+     *   - user (user tables)
+     *   - page (pages table)
+     */
+    function install() {
+        // output structure
+        $status = [];
+
+        // get configuration
+        $config = $this->getModules();
+
+        // TODO: check modules integrity
+
+        // install missing modules
+        $modules = [ 'user', 'env', 'page' ];
+
+        foreach ($modules as $module) {
+            $itemStatus = $this->installModule($module);
+            array_push($status, $itemStatus);
+        }
+
+        return $status;
+    }
+
+    /**
+     * Installs a module: registers it in the DB and creates the appropriate
+     * table.
+     */
+    function installModule($id) {
+        // get module config/data
+        $config = $this->getModule($id);
+
+        // integrity checks
+        if ($config["installed"] == true) {
+            return([ "status" => "NOK", "message" => "Module `" . $id . "`already installed" ]);
+        } else if ($config["integrity"]["create"] == false) {
+            return([ "status" => "NOK", "message" => "Create SQL script does not exist for module `" . $id . "`" ]);
+        }
+
+        // create file path
+        $createSQLFile = $this->componentDir . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . "create.sql";
+
+        $success = $this->db->processSQLFile($createSQLFile);
+
+        return $success;
+    }
+
+
 
 
 }

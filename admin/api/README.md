@@ -18,5 +18,11 @@ Common arguments:
 * `id` - id of the modules (component name from `getModules`)
 
 Methods:
-* POST - installModule - install module
-* DELETE - uninstallModule - uninstall module
+* POST - `installModule` - install module
+* DELETE - `uninstallModule` - uninstall module
+
+
+# install
+
+Methods:
+* GET - `installStatus`

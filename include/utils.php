@@ -39,6 +39,13 @@ class Utils {
     static function JSON($arr) {
         return json_encode($arr, true);
     }
+
+    /**
+     * Extract request parameter.
+     */
+    static function extractRequestParameter($name) {
+        return $_REQUEST[$name];
+    }
 }
 
 $utils = new Utils();
