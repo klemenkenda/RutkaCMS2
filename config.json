@@ -3,7 +3,7 @@
     "db": {
         "host": "192.168.99.100",
         "db": "dev",
-        "user": "dev",
-        "pass": "dev"
+        "user": "root",
+        "pass": "root"
     }
 }

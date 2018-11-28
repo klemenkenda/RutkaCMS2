@@ -1,1 +1,1 @@
-DESTROY TABLE users;
+drop table users;

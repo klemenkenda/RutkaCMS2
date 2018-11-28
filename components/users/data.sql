@@ -1,0 +1,1 @@
+insert into users (name, password, su) values ('admin', password('pass'), true);

@@ -58,9 +58,6 @@ class Manage {
      */
     function isModuleInstalled($id) {
         $value = $this->db->getEnvVariable($id . "_INSTALLED");
-        echo $id;
-        print_r($value);
-        echo "\nˇ\n";
 
         if ($value == "true") return true;
         return false;
@@ -185,7 +182,13 @@ class Manage {
         $createSQLFile = $this->componentDir . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . "create.sql";
         $success = $this->db->processSQLFile($createSQLFile);
 
-        // if everything is OK, then unregister the module
+        // add data
+        if ($config["integrity"]["data"] == true) {
+            $dataSQLFile = $this->componentDir . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . "data.sql";
+            $successData = $this->db->processSQLFile($dataSQLFile);
+        }
+
+        // if everything is OK, then register the module
         if ($success["status"] == "OK") {
             $statusEnv = $this->db->setEnvVariable($id . "_INSTALLED", "true");
             if ($statusEnv["status"] != "OK") {
@@ -216,7 +219,11 @@ class Manage {
 
         // if everything is OK, then unregister the module
         if ($success["status"] == "OK") {
-            $statusEnv = $this->db->unsetEnvVariable($id . "_INSTALLED");
+            if ($id != "env") {
+                $statusEnv = $this->db->unsetEnvVariable($id . "_INSTALLED");
+            } else {
+                $statusEnv = [ "status" => "OK" ];
+            }
             if ($statusEnv["status"] != "OK") {
                 return $statusEnv;
             }

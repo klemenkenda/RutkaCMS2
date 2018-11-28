@@ -1,7 +1,8 @@
-create table env (
+CREATE TABLE users (
     id int not null auto_increment primary key,
     ts timestamp default current_timestamp on update current_timestamp,
-    varname varchar(50) not null,
-    val varchar(255),
-    unique key unique_varname (varname)
-);
+    name varchar(100),
+    password varchar(100),
+    su boolean,
+    permissions json
+)
