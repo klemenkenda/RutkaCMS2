@@ -28,6 +28,33 @@ class Db {
     }
 
     /**
+     * Returns result array instead of result pointer.
+     */
+    function queryResult($query) {
+        $result = $this->query($query);
+        if ($result == true) {
+            $value = $result->fetch_array(MYSQLI_ASSOC);
+            return $value;
+        } else {
+            // find out the error
+            return [ "status" => "NOK", "error" => $this->getError() ];
+        }
+    }
+
+    /**
+     * Returns true or false.
+     */
+    function querySuccess($query) {
+        $result = $this->query($query);
+        if ($result == true) {
+            return true;
+        } else {
+            // find out the error
+            return [ "status" => "NOK", "error" => $this->getError() ];
+        }
+    }
+
+    /**
      * Perform multiple SQL queries with one call.
      */
     function multi_query($query) {

@@ -53,7 +53,23 @@ class Utils {
      * Extract request parameter.
      */
     static function extractRequestParameter($name) {
-        return $_REQUEST[$name];
+        if (array_key_exists($name, $_REQUEST)) return $_REQUEST[$name];
+        return "";
+    }
+
+    /**
+     * Generate token.
+     */
+    static function getTokenString($len = 64) {
+        $token = "";
+
+        $chars = "0123456789abcdef";
+        for ($i = 0; $i < 64; $i++) {
+            $u = rand(0, 15);
+            $token .= $chars[$u];
+        }
+
+        return $token;
     }
 }
 

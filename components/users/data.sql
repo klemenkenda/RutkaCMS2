@@ -1,1 +1,1 @@
-insert into users (name, password, su) values ('admin', password('pass'), true);
+insert into users (name, email, username, password, su) values ('Admin', 'admin@admin.com', 'admin', password('pass'), true);

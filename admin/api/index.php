@@ -19,9 +19,11 @@ $db = new Inc\Db($config);
 // require APIs
 require_once("manage.php");
 require_once("admin.php");
+require_once("users.php");
 
-$manage = new API\Manage($db);
-$api = new API\Admin($db);
+$manage = new API\Manage($db, $utils);
+$users = new API\Users($db, $utils);
+$api = new API\Admin($db, $utils);
 
 // parse URL
 $uri = $utils->ParseURI($_SERVER["REQUEST_URI"]);
@@ -32,13 +34,16 @@ list($function, $id) = $utils->ParseCommandFromURI($uri);
 $obj = [];
 
 // API multiplexer
+// all modules
 if ($function == "modules") {
     if ($method == "GET") {
         $obj = $manage->getModules();
     } else {
         $obj = [ "message" => "Not implemented." ];
     }
-} else if ($function == "module") {
+}
+// one module
+else if ($function == "module") {
     if ($method == "POST") {
         $obj = $manage->installModule($id);
     } else if ($method == "DELETE") {
@@ -48,12 +53,40 @@ if ($function == "modules") {
     } else {
         $obj = [ "message" => "Not implemented." ];
     }
-} else if ($function == "install") {
+}
+// install
+else if ($function == "install") {
     if ($method == "POST") {
         $obj = $manage->install();
     } else if ($method == "DELETE") {
         $obj = $manage->uninstall();
+    } else {
+        $obj = [ "message" => "Not implemented." ];
     }
+}
+// authenticate with token
+else if ($function == "auth") {
+    if ($method == "GET") {
+        $token = $utils->extractRequestParameter("token");
+        $obj = $users->isAuth($token);
+    } else {
+        $obj = [ "message" => "Not implemented." ];
+    }
+}
+// login with username and password
+else if ($function == "login") {
+    if ($method == "GET") {
+        $user = $utils->extractRequestParameter("user");
+        $password = $utils->extractRequestParameter("password");
+        $obj = $users->login($user, $password);
+    } else {
+        $obj = [ "message" => "Not implemented." ];
+    }
+}
+
+// otherwise the function is not implemented
+else {
+    $obj = [ "message" => "Not implemented." ];
 }
 
 // return JSON

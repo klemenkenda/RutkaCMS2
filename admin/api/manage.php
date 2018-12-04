@@ -4,11 +4,13 @@ namespace API;
 
 class Manage {
     /**
-     * Manage class constructor.
+     * Manage API class constructor.
      */
-    function __construct($db) {
+    function __construct($db, $utils) {
         // saving link to database
         $this->db = $db;
+        // saving link to utils object
+        $this->utils = $utils;
 
         // define working directory
         $this->rootDir = $_SERVER["CONTEXT_DOCUMENT_ROOT"];
@@ -232,8 +234,6 @@ class Manage {
 
         return $success;
     }
-
-
 
 }
 
