@@ -92,6 +92,7 @@ else {
 // return JSON
 $JSON = $utils->JSON($obj);
 header('Content-type: application/json');
+header("Access-Control-Allow-Origin: *");
 print($JSON);
 
 ?>
