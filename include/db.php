@@ -28,6 +28,20 @@ class Db {
     }
 
     /**
+     * Perform multiple SQL queries with one call.
+     */
+    function multi_query($query) {
+        $results = [];
+        if ($result = $this->mysqli->multi_query($query)) {
+            // free the results
+            do { } while ($this->mysqli->more_results() && $this->mysqli->next_result());
+            return [ "status" => "OK" ];
+        } else {
+            return ([ "status" => "NOK2", "error" => $this->getError()]);
+        }
+    }
+
+    /**
      * Retrives an error from SQL request.
      */
     function getError() {
@@ -40,14 +54,8 @@ class Db {
     function processSQLFile($file) {
         // read the file
         $SQL = file_get_contents($file);
-        $result = $this->query($SQL);
-        if ($result == true) {
-            // success
-            return [ "status" => "OK" ];
-        } else {
-            // find out the error
-            return [ "status" => "NOK", "error" => $this->getError() ];
-        }
+        $result = $this->multi_query($SQL);
+        return $result;
     }
 
     /**

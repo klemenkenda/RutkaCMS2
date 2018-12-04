@@ -30,7 +30,16 @@ class Utils {
      */
     static function ParseCommandFromURI($uri) {
         $pieces = explode('/', $uri);
-        return array_pop($pieces);
+
+        // reseting parameters
+        $id = "";
+        $function = "";
+
+        // extracting parameters
+        if (sizeof($pieces) > 3) $function = $pieces[3];
+        if (sizeof($pieces) > 4) $id = $pieces[4];
+
+        return [ $function, $id ];
     }
 
     /**

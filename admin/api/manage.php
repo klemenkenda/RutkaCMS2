@@ -134,6 +134,7 @@ class Manage {
 
         foreach ($modules as $module) {
             $itemStatus = $this->installModule($module);
+            print_r($itemStatus);
             array_push($status, $itemStatus);
         }
 

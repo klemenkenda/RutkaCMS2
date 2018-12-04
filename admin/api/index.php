@@ -2,7 +2,7 @@
 // by default display all errors
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL | E_STRICT);
 
 // requires utils
 require_once('../../include/utils.php');
@@ -26,7 +26,7 @@ $api = new API\Admin($db);
 // parse URL
 $uri = $utils->ParseURI($_SERVER["REQUEST_URI"]);
 $method = $_SERVER["REQUEST_METHOD"];
-$function = $utils->ParseCommandFromURI($uri);
+list($function, $id) = $utils->ParseCommandFromURI($uri);
 
 // set empty array
 $obj = [];
@@ -40,9 +40,11 @@ if ($function == "modules") {
     }
 } else if ($function == "module") {
     if ($method == "POST") {
-        // extract parameters
-        $id = $utils->extractRequestParameter("id");
         $obj = $manage->installModule($id);
+    } else if ($method == "DELETE") {
+        $obj = $manage->uninstallModule($id);
+    } else if ($method == "GET") {
+        $obj = $manage->getModule($id);
     } else {
         $obj = [ "message" => "Not implemented." ];
     }
