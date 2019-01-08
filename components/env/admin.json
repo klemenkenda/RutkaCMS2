@@ -1,11 +1,16 @@
 {
-    "name": "Environment variables",
-    "table": "env",
-    "sort": [
-        { "field": "varname", "order": "asc" }
-    ],
-    "fields": [
-        { "name": "varname", "type": "text", "comment": "Only use big letters of the English alphabet and underscores '_'." },
-        { "name": "val", "type": "text" }
+    "name": "Environment vars",
+    "description": "Environment variables, that can be accessed server/client side wherever in the plugins or HTML.",
+    "config": [
+        {
+            "table": "env",
+            "sort": [
+                { "field": "varname", "order": "asc" }
+            ],
+            "fields": [
+                { "name": "varname", "type": "text", "description": "Name", "list": true, "comment": "Only use big letters of the English alphabet and underscores '_'." },
+                { "name": "val", "description": "Value", "type": "text", "list": true }
+            ]
+        }
     ]
 }

@@ -1,0 +1,14 @@
+{
+    "name": "Pages module",
+    "description": "Pages modules takes care about hiearchically ordered pages system; content of the pages can be entered through dedicated GUI. Pages is an essential part of RutkaCMS.",
+    "config": [
+        {
+            "table": "pages",
+            "name": "Pages",
+            "type": "pages",
+            "fields": [
+                { "name": "Title", "column": "title", "type": "text", "list": "normal", "comment": "" }
+            ]
+        }
+    ]
+}
