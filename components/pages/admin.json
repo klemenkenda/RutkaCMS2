@@ -7,7 +7,9 @@
             "name": "Pages",
             "type": "pages",
             "fields": [
-                { "name": "Title", "column": "title", "type": "text", "list": "normal", "comment": "" }
+                { "name": "pa_title", "type": "text", "description": "Title", "list": true, "comment": "" },
+                { "name": "pa_abstract", "type": "textarea", "description": "Abstract", "list": true, "comment": "" },
+                { "name": "pa_content", "type": "richtextarea", "description": "Content", "list": true, "comment": "" }
             ]
         }
     ]

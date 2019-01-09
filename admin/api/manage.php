@@ -13,7 +13,7 @@ class Manage {
         $this->utils = $utils;
 
         // define working directory
-        $this->rootDir = $_SERVER["CONTEXT_DOCUMENT_ROOT"];
+        $this->rootDir = sprintf('%s' . DIRECTORY_SEPARATOR, rtrim($_SERVER['DOCUMENT_ROOT'], DIRECTORY_SEPARATOR));
         $this->componentDir = $this->rootDir . "components";
     }
 
