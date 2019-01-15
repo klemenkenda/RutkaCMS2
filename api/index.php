@@ -5,13 +5,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
 // requires utils
-require_once('../../include/utils.php');
+require_once('../include/utils.php');
 
 // load configs
-$config = $utils->loadConfig("../../config.json");
+$config = $utils->loadConfig("../config.json");
 
 // other requires
-require_once('../../include/db.php');
+require_once('../include/db.php');
 
 // creating database connection
 $db = new Inc\Db($config);
@@ -92,7 +92,7 @@ else {
 // return JSON
 $JSON = $utils->JSON($obj);
 header('Content-type: application/json');
-header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Origin: *");
 print($JSON);
 
 ?>

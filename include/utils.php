@@ -36,8 +36,8 @@ class Utils {
         $function = "";
 
         // extracting parameters
-        if (sizeof($pieces) > 3) $function = $pieces[3];
-        if (sizeof($pieces) > 4) $id = $pieces[4];
+        if (sizeof($pieces) > 2) $function = $pieces[2];
+        if (sizeof($pieces) > 3) $id = $pieces[3];
 
         return [ $function, $id ];
     }
