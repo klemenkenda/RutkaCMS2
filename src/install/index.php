@@ -5,20 +5,20 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // requires utils
-require_once('../../include/utils.php');
+require_once('../include/utils.php');
 
 // load configs
-$config = $utils->loadConfig("../../config.json");
+$config = $utils->loadConfig("../config.json");
 
 // other requires
-require_once('../../include/db.php');
+require_once('../include/db.php');
 
 // creating database connection
 $db = new Inc\Db($config);
 
 // require APIs
 require_once("../api/manage.php");
-$manage = new API\Manage($db);
+$manage = new API\Manage($db, $utils);
 
 echo "Attempting to install the CMS:";
 echo "<pre>";

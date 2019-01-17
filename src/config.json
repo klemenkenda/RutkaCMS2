@@ -1,7 +1,7 @@
 {
     "debug": true,
     "db": {
-        "host": "192.168.99.100",
+        "host": "docker_mysql_1",
         "db": "dev",
         "user": "root",
         "pass": "root"

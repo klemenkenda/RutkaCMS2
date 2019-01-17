@@ -1,0 +1,41 @@
+version: "3.3"
+
+services:
+  php:
+    build: './php/'
+    networks:
+      - backend
+    volumes:
+      - ../src/:/var/www/html/
+    external_links:
+        - mysql:docker-mysql
+  mysql:
+    image: mysql:5.7
+    container_name: docker_mysql_1
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+       - ../data/:/var/lib/mysql
+    environment:
+       - MYSQL_ROOT_PASSWORD=root
+       - MYSQL_USER=dev
+       - MYSQL_PASSWORD=dev
+       - MYSQL_DATABASE=dev
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+  apache:
+    build: './apache/'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+    volumes:
+      - ../src/:/var/www/html/
+networks:
+  backend:
+  frontend:
