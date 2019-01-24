@@ -10,6 +10,11 @@ class Admin {
         // saving link to utils object
         $this->utils = $utils;
     }
+
+    function getData($table) {
+        $SQL = "SELECT * FROM " . $table;
+        return $this->db->queryResults($SQL);
+    }
 }
 
 ?>

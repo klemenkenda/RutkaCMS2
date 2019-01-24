@@ -7,9 +7,11 @@
             "name": "Pages",
             "type": "pages",
             "fields": [
-                { "name": "pa_title", "type": "text", "description": "Title", "list": true, "comment": "" },
-                { "name": "pa_abstract", "type": "textarea", "description": "Abstract", "list": true, "comment": "" },
-                { "name": "pa_content", "type": "richtextarea", "description": "Content", "list": true, "comment": "" }
+                { "name": "id", "type": "id", "description": "Id", "list": true },
+                { "name": "action", "type": "action", "description": "Action", "list": true },
+                { "name": "title", "type": "text", "description": "Title", "list": true, "comment": "" },
+                { "name": "abstract", "type": "textarea", "description": "Abstract", "list": true, "comment": "" },
+                { "name": "content", "type": "richtextarea", "description": "Content", "list": true, "comment": "" }
             ]
         }
     ]

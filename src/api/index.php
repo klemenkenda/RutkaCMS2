@@ -83,6 +83,15 @@ else if ($function == "login") {
         $obj = [ "message" => "Not implemented." ];
     }
 }
+// get data from table
+else if ($function == "data") {
+    if ($method == "GET") {
+        $table = $utils->extractRequestParameter("table");
+        $obj = $api->getData($table);
+    } else {
+        $obj = [ "message" => "Not implemented." ];
+    };
+}
 
 // otherwise the function is not implemented
 else {

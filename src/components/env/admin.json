@@ -8,6 +8,8 @@
                 { "field": "varname", "order": "asc" }
             ],
             "fields": [
+                { "name": "id", "type": "id", "description": "Id", "list": true },
+                { "name": "action", "type": "action", "description": "Action", "list": true },
                 { "name": "varname", "type": "text", "description": "Name", "list": true, "comment": "Only use big letters of the English alphabet and underscores '_'." },
                 { "name": "val", "description": "Value", "type": "text", "list": true }
             ]
